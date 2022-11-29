@@ -13,18 +13,21 @@ using System.Drawing.Printing;
 namespace S130362 {
 	public partial class Form1 : Form {
 		public Form1() {
-			InitializeComponent();
+			InitializeComponent();			
 		}
 
-		private void button1_Click(object sender, EventArgs e) {
+        private void Form1_Load(object sender, EventArgs e) {
+            sqlDataSource1.Fill();
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
 			PrintingSystem ps = new PrintingSystem();
 			PrintableComponentLink link = new PrintableComponentLink(ps);
 			link.Component = pivotGridControl1;
-			PageSettings pageSettings = pivotGridControl1.OptionsPrint.PageSettings.ToPageSettings();
-			link.PaperKind = pageSettings.PaperSize.Kind;
-			if(pageSettings.PaperSize.Width != 0 && pageSettings.PaperSize.Height != 0)
-				link.CustomPaperSize = new Size(pageSettings.PaperSize.Width, pageSettings.PaperSize.Height);
-			link.PaperName = pageSettings.PaperSize.PaperName;
+			PivotGridPageSettings pageSettings = pivotGridControl1.OptionsPrint.PageSettings;
+			link.PaperKind = pageSettings.PaperKind;
+			if(pageSettings.PaperWidth != 0 && pageSettings.PaperHeight != 0)
+				link.CustomPaperSize = new Size(pageSettings.PaperWidth, pageSettings.PaperHeight);
 			link.Landscape = pageSettings.Landscape;
 			link.Margins = pageSettings.Margins;
 
@@ -42,5 +45,7 @@ namespace S130362 {
 			link.Dispose();
 			ps.Dispose();
 		}
+
+		
 	}
 }
