@@ -5,6 +5,7 @@ Imports System.Windows.Forms
 Imports DevExpress.XtraPrinting
 Imports DevExpress.XtraPivotGrid
 Imports System.Drawing.Printing
+Imports DevExpress.Drawing.Printing
 
 Namespace S130362
 
@@ -24,13 +25,13 @@ Namespace S130362
             Dim link As PrintableComponentLink = New PrintableComponentLink(ps)
             link.Component = pivotGridControl1
             Dim pageSettings As PivotGridPageSettings = pivotGridControl1.OptionsPrint.PageSettings
-            link.PaperKind = pageSettings.PaperKind
+            link.PaperKind = CType(pageSettings.PaperKind, DXPaperKind)
             If pageSettings.PaperWidth <> 0 AndAlso pageSettings.PaperHeight <> 0 Then link.CustomPaperSize = New Size(pageSettings.PaperWidth, pageSettings.PaperHeight)
             link.Landscape = pageSettings.Landscape
             link.Margins = pageSettings.Margins
             link.ShowPreviewDialog(Me)
             Dim pivotSettings As PivotGridPageSettings = pivotGridControl1.OptionsPrint.PageSettings
-            pivotSettings.PaperKind = link.PaperKind
+            pivotSettings.PaperKind = CType(link.PaperKind, PaperKind)
             If pivotSettings.PaperKind = PaperKind.Custom Then
                 pivotSettings.PaperWidth = link.CustomPaperSize.Width
                 pivotSettings.PaperHeight = link.CustomPaperSize.Height
