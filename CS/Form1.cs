@@ -9,6 +9,7 @@ using DevExpress.XtraPrinting;
 using DevExpress.XtraPivotGrid;
 using DevExpress.XtraPivotGrid.Data;
 using System.Drawing.Printing;
+using DevExpress.Drawing.Printing;
 
 namespace S130362 {
 	public partial class Form1 : Form {
@@ -25,7 +26,7 @@ namespace S130362 {
 			PrintableComponentLink link = new PrintableComponentLink(ps);
 			link.Component = pivotGridControl1;
 			PivotGridPageSettings pageSettings = pivotGridControl1.OptionsPrint.PageSettings;
-			link.PaperKind = pageSettings.PaperKind;
+			link.PaperKind = (DXPaperKind)pageSettings.PaperKind;
 			if(pageSettings.PaperWidth != 0 && pageSettings.PaperHeight != 0)
 				link.CustomPaperSize = new Size(pageSettings.PaperWidth, pageSettings.PaperHeight);
 			link.Landscape = pageSettings.Landscape;
@@ -34,7 +35,7 @@ namespace S130362 {
 			link.ShowPreviewDialog(this);
 
 			PivotGridPageSettings pivotSettings = pivotGridControl1.OptionsPrint.PageSettings;
-			pivotSettings.PaperKind = link.PaperKind;
+			pivotSettings.PaperKind = (PaperKind)link.PaperKind;
 			if(pivotSettings.PaperKind == PaperKind.Custom) {
 				pivotSettings.PaperWidth = link.CustomPaperSize.Width;
 				pivotSettings.PaperHeight = link.CustomPaperSize.Height;
